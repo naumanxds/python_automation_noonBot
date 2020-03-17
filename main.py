@@ -90,10 +90,10 @@ def updateData(links):
         time.sleep(3)
         html = BeautifulSoup(driver.page_source, 'lxml')
         lowestPriceSpan = html.find('div', {'class' : 'jsx-753764015 highLowPriceCtr'})
-        lowestPrice = float(lowestPriceSpan.find_all('span')[-1].get_text(strip=True))
+        lowestPrice = float(lowestPriceSpan.find_all('span')[-1].get_text(strip=True).replace(',', ''))
 
         myPriceField = html.find('div', {'class' : 'jsx-3185603393 priceInputWrapper'})
-        myPrice = float(myPriceField.find('input').get('value'))
+        myPrice = float(myPriceField.find('input').get('value').replace(',', ''))
 
         if lowestPrice < myPrice:
             newPrice = str(round(lowestPrice - random.uniform(0.05, 0.25), 2))
