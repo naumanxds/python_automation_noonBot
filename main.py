@@ -44,7 +44,7 @@ def loginAdmin():
         print('     >> ERRROR In Logging In => ' + format(e))
 
 # Set Search criteria in the search bar
-def setSearchCriteria(driver):
+def setSearchCriteria():
     print(' => Setting search Criteria for SKUs <=' )
     searchArray = ''
     with open('noon.csv', 'r') as fHandle:
@@ -61,7 +61,7 @@ def setSearchCriteria(driver):
     return driver
 
 # Extract all the links of the search criteria
-def extractLinks(driver):
+def extractLinks():
     print(' => Extracting Links Against Searched SKUs <=')
     links = []
     while True:
@@ -80,10 +80,10 @@ def extractLinks(driver):
         driver.find_element_by_link_text('>>').click()
         time.sleep(3)
 
-    return links, driver
+    return links
 
 # update prices for extracted links
-def updateData(links, driver):
+def updateData(links):
     print(' => Starting Updated of the Records <=')
     for l in links:
         driver.get(BASE_URL + l)
@@ -113,6 +113,7 @@ def updateData(links, driver):
 if __name__ == '__main__':
     print(' Starting Noon Bot ')
     print(' ================= ')
+    loginAdmin()
     while True:
         print(' * 1 * Start Scraping') 
         print(' * 2 * Exit Bot')
@@ -120,8 +121,9 @@ if __name__ == '__main__':
         choice = input(' => Please Enter your option number : ')
 
         if choice == '1':
-            links, driver = extractLinks(setSearchCriteria(loginAdmin()))
-            updateData(links, driver)
+            setSearchCriteria()
+            links = extractLinks()
+            updateData(links)
         elif choice == '2':
             driver.quit()
             exit()
