@@ -108,12 +108,23 @@ def updateData(links, driver):
             driver.find_element_by_class_name('primary').click()
             time.sleep(3)
 
-    driver.quit()
     print(' => Execution Completet <=')
 
 if __name__ == '__main__':
     print(' Starting Noon Bot ')
     print(' ================= ')
-    links, driver = extractLinks(setSearchCriteria(loginAdmin()))
-    updateData(links, driver)
+    while True:
+        print(' * 1 * Start Scraping') 
+        print(' * 2 * Exit Bot')
+        print(' ********************')
+        choice = input(' => Please Enter your option number : ')
+
+        if choice == '1':
+            links, driver = extractLinks(setSearchCriteria(loginAdmin()))
+            updateData(links, driver)
+        elif choice == '2':
+            driver.quit()
+            exit()
+        else:
+            print('=> Invalid Option <=')
 
