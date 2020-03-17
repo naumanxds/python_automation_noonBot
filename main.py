@@ -108,6 +108,9 @@ def updateData(links, driver):
             driver.find_element_by_class_name('primary').click()
             time.sleep(3)
 
+    driver.quit()
+    print(' => Execution Completet <=')
+
 if __name__ == '__main__':
     print(' Starting Noon Bot ')
     print(' ================= ')
