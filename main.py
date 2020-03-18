@@ -95,7 +95,7 @@ def updateData(links):
         myPrice = float(myPriceField.find('input').get('value').replace(',', ''))
 
         if lowestPrice < myPrice:
-            newPrice = str(round(lowestPrice - 0.05))
+            newPrice = str(lowestPrice - 0.05)
             print('     => Updating Url : ' + BASE_URL + l)
             print('         => Lowest Price = ' + str(lowestPrice))
             print('         => My Price = ' + str(myPrice))
