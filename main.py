@@ -108,6 +108,7 @@ def updateData(links):
             driver.find_element_by_class_name('primary').click()
             time.sleep(3)
 
+    driver.get(ADMIN_NOON_CATALOG_URL)
     print(' => Execution Completet <=')
 
 if __name__ == '__main__':
