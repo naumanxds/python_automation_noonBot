@@ -14,8 +14,9 @@ ADMIN_NOON_CATALOG_URL = 'https://catalog.noon.partners/en-ae/catalog'
 
 # create browser instance
 browserOptions = Options()
-browserOptions.add_argument("--headless")
-driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=browserOptions)
+# browserOptions.add_argument("--headless")
+# driver = webdriver.Chrome(executable_path=ChromeDriverManager().install(), options=browserOptions)
+driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 
 # login into Admin Panel
 def loginAdmin():
