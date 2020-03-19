@@ -120,7 +120,7 @@ def updateData(links):
                 setInput.clear()
                 setInput.send_keys(newPrice)
                 driver.find_element_by_class_name('primary').click()
-                time.sleep(3)
+                time.sleep(5)
         except Exception as e:
             missedSku.append(l)
             print('     >> ERRROR In Updating on Link => ' + BASE_URL + l + ' => ' + format(e))
