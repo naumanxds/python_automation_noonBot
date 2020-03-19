@@ -43,6 +43,8 @@ def loginAdmin():
         return True
     except Exception as e:
         print('     >> ERRROR In Logging In => ' + format(e))
+        driver.quit()
+        exit()
 
     return False
 
@@ -63,6 +65,8 @@ def setSearchCriteria():
         time.sleep(3)
     except Exception as e:
         print('     >> ERRROR In Setting Search Criteria => ' + format(e))
+        driver.quit()
+        exit()
 
 # Extract all the links of the search criteria
 def extractLinks():
@@ -121,10 +125,9 @@ def updateData(links):
             missedSku.append(l)
             print('     >> ERRROR In Updating on Link => ' + BASE_URL + l + ' => ' + format(e))
 
-    return missedSks
-
     driver.get(ADMIN_NOON_CATALOG_URL)
     print(' => Execution Completet <=')
+    return missedSku
 
 # write missed cases in csv file
 def reportMissedEntries(missedSku):
