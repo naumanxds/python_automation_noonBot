@@ -48,56 +48,48 @@ def loginAdmin():
 
     return False
 
-# Set Search criteria in the search bar
-def setSearchCriteria():
+# Extract all the links of the search criteria and start iterating in chunks of 250
+def extractLinksAndIterate():
     try:
-        print(' => Setting search Criteria for SKUs <=' )
-        searchArray = ''
-        with open('noon.csv', 'r') as fHandle:
-            data = csv.reader(fHandle, delimiter=',')
+        with open('priority.csv', 'r') as fHandle:
+            skus = csv.reader(fHandle, delimiter=',')
+
+        for i in range(0, len(ints), 250):
+            chunk = sku[i:i+250]
+            searchString = ''
             for l in data:
-                searchArray += l[0] + ' '
+                    searchString += l[0] + ' '
 
-        searchField = driver.find_element_by_class_name('searchInput')
-        searchField.clear()
-
-        searchField.send_keys(searchArray)
-        time.sleep(3)
-    except Exception as e:
-        print('     >> ERRROR In Setting Search Criteria => ' + format(e))
-        driver.quit()
-        exit()
-
-# Extract all the links of the search criteria
-def extractLinks():
-    print(' => Extracting Links Against Searched SKUs <=')
-    links = []
-    try:
-        while True:
-            driver.execute_script('return document.documentElement.outerHTML')
-            html = BeautifulSoup(driver.page_source, 'lxml')
-            tbody = html.find('tbody', {'class' : 'jsx-3498568516 tbody'})
-            tr = tbody.find_all('tr')
-            for l in tr:
-                status = l.find('div', {'class' : 'jsx-448933760 statusCtr'}).get_text(strip=True)
-                if str(status) == 'Live':
-                    links.append(l.find('a').get('href'))
-
-            if str(html.find('li', {'class' : 'next'})) == NOT_FOUND or str(html.find('li', {'class' : 'next disabled'})) != NOT_FOUND:
-                break
-
-            driver.find_element_by_link_text('>>').click()
+            searchField = driver.find_element_by_class_name('searchInput')
+            searchField.clear()
+            searchField.send_keys(searchArray)
             time.sleep(3)
+            print(' => Extracting Links Against Searched SKUs <=')
+            links = []
+            while True:
+                driver.execute_script('return document.documentElement.outerHTML')
+                html = BeautifulSoup(driver.page_source, 'lxml')
+                tbody = html.find('tbody', {'class' : 'jsx-3498568516 tbody'})
+                tr = tbody.find_all('tr')
+                for l in tr:
+                    status = l.find('div', {'class' : 'jsx-448933760 statusCtr'}).get_text(strip=True)
+                    if str(status) == 'Live':
+                        links.append(l.find('a').get('href'))
+
+                if str(html.find('li', {'class' : 'next'})) == NOT_FOUND or str(html.find('li', {'class' : 'next disabled'})) != NOT_FOUND:
+                    break
+
+                driver.find_element_by_link_text('>>').click()
+                time.sleep(3)
+
+            updateData(links)
 
     except Exception as e:
         print('     >> ERRROR In Extrating Link => ' + format(e))
 
-    return links
-
 # update prices for extracted links
 def updateData(links):
     print(' => Starting Updated of the Records <=')
-    missedSku = []
     for l in links:
         try:
             driver.get(BASE_URL + l)
@@ -120,44 +112,21 @@ def updateData(links):
                 setInput.clear()
                 setInput.send_keys(newPrice)
                 driver.find_element_by_class_name('primary').click()
-                time.sleep(5)
+                time.sleep(3)
         except Exception as e:
-            missedSku.append(l)
             print('     >> ERRROR In Updating on Link => ' + BASE_URL + l + ' => ' + format(e))
 
     driver.get(ADMIN_NOON_CATALOG_URL)
     print(' => Execution Completet <=')
-    return missedSku
-
-# write missed cases in csv file
-def reportMissedEntries(missedSku):
-    with open('missed-Sku-File-' + datetime.now().strftime('%H-%M-%S') + '.csv', 'w', encoding="utf-8") as fh:
-        csvWriter = csv.writer(fh)
-        for l in missedSku:
-            csvWriter.writerow([l.split('catalog/')[1]])
 
 if __name__ == '__main__':
-    print(' Starting Noon Bot ')
-    print(' ================= ')
-    if loginAdmin():
-        while True:
-            try:
-                print(' * 1 * Start Scraping') 
-                print(' * 2 * Exit Bot')
-                print(' ********************')
-                choice = input(' => Please Enter your option number : ')
-
-                if choice == '1':
-                    setSearchCriteria()
-                    links = extractLinks()
-                    missedSku = updateData(updateData(links))
-                    if missedSku != []:
-                        reportMissedEntries(missedSku)
-                elif choice == '2':
-                    driver.quit()
-                    exit()
-                else:
-                    print('=> Invalid Option <=')
-            except Exception as e:
-                print('     >> Unexpected Error Occured => ' + format(e))
-
+    print(' Starting Pririty Noon Bot')
+    print(' =========================')
+    while(True):
+        try:
+            loginAdmin()
+            extractLinksAndIterate()
+            time.sleep(60)
+        except Exception as e:
+            print('     >> Unexpected Error Occured => ' + format(e))
+y
