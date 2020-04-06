@@ -126,7 +126,7 @@ if __name__ == '__main__':
         try:
             loginAdmin()
             extractLinksAndIterate()
-            time.sleep(60)
+            time.sleep(300)
         except Exception as e:
             print('     >> Unexpected Error Occured => ' + format(e))
 y
