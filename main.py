@@ -109,7 +109,7 @@ def updateData(links):
             myPriceField = html.find('div', {'class' : 'jsx-3185603393 priceInputWrapper'})
             myPrice = float(myPriceField.find('input').get('value').replace(',', ''))
 
-            if lowestPrice < myPrice and myPrice - lowestPrice > 5:
+            if lowestPrice < myPrice and myPrice - lowestPrice < 5:
                 newPrice = str(round(lowestPrice - 0.05, 2))
                 print('     => Updating Url : ' + BASE_URL + l)
                 print('         => Lowest Price = ' + str(lowestPrice))
