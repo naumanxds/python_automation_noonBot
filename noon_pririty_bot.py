@@ -52,7 +52,7 @@ def loginAdmin():
 def extractLinksAndIterate():
     try:
         with open('priority.csv', 'r') as fHandle:
-            skus = csv.reader(fHandle, delimiter=',')
+            skus = list(csv.reader(fHandle, delimiter=','))
 
         for i in range(0, len(skus), 250):
             chunk = skus[i:i+250]
