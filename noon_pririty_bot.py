@@ -54,7 +54,7 @@ def extractLinksAndIterate():
         with open('priority.csv', 'r') as fHandle:
             skus = csv.reader(fHandle, delimiter=',')
 
-        for i in range(0, len(ints), 250):
+        for i in range(0, len(skus), 250):
             chunk = sku[i:i+250]
             searchString = ''
             for l in data:
