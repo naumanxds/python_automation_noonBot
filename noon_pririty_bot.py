@@ -55,14 +55,14 @@ def extractLinksAndIterate():
             skus = csv.reader(fHandle, delimiter=',')
 
         for i in range(0, len(skus), 250):
-            chunk = sku[i:i+250]
+            chunk = skus[i:i+250]
             searchString = ''
-            for l in data:
+            for l in chunk:
                     searchString += l[0] + ' '
 
             searchField = driver.find_element_by_class_name('searchInput')
             searchField.clear()
-            searchField.send_keys(searchArray)
+            searchField.send_keys(searchString)
             time.sleep(3)
             print(' => Extracting Links Against Searched SKUs <=')
             links = []
