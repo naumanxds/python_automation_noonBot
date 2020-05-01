@@ -12,6 +12,7 @@ from selenium.webdriver.chrome.options import Options
 NOT_FOUND = 'None'
 BASE_URL = 'https://catalog.noon.partners'
 ADMIN_NOON_CATALOG_URL = 'https://catalog.noon.partners/en-ae/catalog'
+CHUNK_SIZE = 150
 
 # create browser instance
 browserOptions = Options()
@@ -54,8 +55,8 @@ def extractLinksAndIterate():
         with open('priority.csv', 'r') as fHandle:
             skus = list(csv.reader(fHandle, delimiter=','))
 
-        for i in range(0, len(skus), 250):
-            chunk = skus[i:i+250]
+        for i in range(0, len(skus), CHUNK_SIZE):
+            chunk = skus[i:i+CHUNK_SIZE]
             searchString = ''
             for l in chunk:
                     searchString += l[0] + ' '
@@ -80,7 +81,7 @@ def extractLinksAndIterate():
                     break
 
                 driver.find_element_by_link_text('>>').click()
-                time.sleep(3)
+                time.sleep(5)
 
             updateData(links)
 
@@ -122,11 +123,11 @@ def updateData(links):
 if __name__ == '__main__':
     print(' Starting Pririty Noon Bot')
     print(' =========================')
-    loginAdmin()
-    while(True):
-        try:
-            extractLinksAndIterate()
-            time.sleep(300)
-        except Exception as e:
-            print('     >> Unexpected Error Occured => ' + format(e))
+    if loginAdmin():
+        while(True):
+            try:
+                extractLinksAndIterate()
+                time.sleep(300)
+            except Exception as e:
+                print('     >> Unexpected Error Occured => ' + format(e))
 y
