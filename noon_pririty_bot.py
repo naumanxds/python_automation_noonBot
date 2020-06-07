@@ -61,6 +61,9 @@ def extractLinksAndIterate():
             for l in chunk:
                     searchString += l[0] + ' '
 
+            print(' => Searcing Following SKUs <=\n\n')
+            print(searchString)
+            print('\n \n')
             searchField = driver.find_element_by_class_name('searchInput')
             searchField.clear()
             searchField.send_keys(searchString)
