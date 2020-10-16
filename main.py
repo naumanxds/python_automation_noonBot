@@ -22,8 +22,8 @@ driver = webdriver.Chrome(executable_path=ChromeDriverManager().install())
 # login into Admin Panel
 def loginAdmin():
     print(' => Loggin into the Admin Panel <=')
-    userName = 'hamza.colorfultrading@gmail.com'
-    userPassword = 'Attiq143$'
+    userName = 'your-email-here'
+    userPassword = 'your-password-here'
     try:
         driver.get(BASE_URL + '/en/')
         time.sleep(3)
